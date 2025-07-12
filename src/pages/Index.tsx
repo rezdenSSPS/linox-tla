@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -13,19 +12,15 @@ import {
   Mail,
   Phone,
   MapPin,
-  Calendar
+  Calendar,
+  ArrowRight,
+  Star,
+  Users,
+  Clock
 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import ServiceCard from '@/components/ServiceCard';
 import Footer from '@/components/Footer';
-
-// Import real images
-import offsetMachine from '@/assets/offset-printing-machine.jpg';
-import bookbindingWorkshop from '@/assets/bookbinding-workshop.jpg';
-import letterpressWorkshop from '@/assets/letterpress-workshop.jpg';
-import paperWarehouse from '@/assets/paper-warehouse.jpg';
-import screenPrinting from '@/assets/screen-printing.jpg';
-import graphicStudio from '@/assets/graphic-studio.jpg';
 
 const Index = () => {
   const services = [
@@ -67,114 +62,197 @@ const Index = () => {
     }
   ];
 
+  const stats = [
+    { number: "30+", label: "Rokov skúseností", icon: Calendar },
+    { number: "1000+", label: "Spokojných zákazníkov", icon: Users },
+    { number: "24h", label: "Rýchla odpoveď", icon: Clock },
+    { number: "100%", label: "Kvalita", icon: Star }
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Navigation />
       
       {/* Hero Section */}
-      <section className="py-12 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center space-y-6">
-            <div className="space-y-2">
-              <p className="text-primary font-medium">Od roku 1990</p>
-              <h1 className="text-4xl font-bold">
-                LI-NOX Tlačiarne a vydavateľstvo
+      <section className="relative py-20 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-blue-600/10"></div>
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center space-y-8">
+            <div className="space-y-4">
+              <div className="inline-flex items-center px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium">
+                <Calendar className="w-4 h-4 mr-2" />
+                Tradícia od roku 1990
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+                LI-NOX
+                <span className="block text-3xl md:text-4xl text-indigo-600 mt-2">
+                  Tlačiarne a vydavateľstvo
+                </span>
               </h1>
-              <p className="text-lg max-w-2xl mx-auto">
-                Tlačiarne a vydavateľstvo LI-NOX bolo založené v roku 1990. Majiteľom je Ladislav LINDIS. 
-                Sídli vo vlastných priestoroch v prestavanom rodinnom dome v Rimavskej Sobote.
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Viac ako 30 rokov poskytujeme kvalitné tlačové služby v Rimavskej Sobote. 
+                Od tradičnej tlače až po moderné digitálne technológie.
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/cennik">
-                <Button>Získať cenovú ponuku</Button>
+                <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Získať cenovú ponuku
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
               </Link>
               <Link to="/kontakt">
-                <Button variant="secondary">Kontakt</Button>
+                <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 hover:bg-indigo-50 transition-all duration-300">
+                  <Phone className="w-5 h-5 mr-2" />
+                  Kontakt
+                </Button>
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Real Photos Gallery */}
-      <section className="py-8 px-4 bg-card">
+      {/* Stats Section */}
+      <section className="py-16 px-4 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold text-center mb-6">Naše priestory a služby</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center group">
+                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <stat.icon className="w-8 h-8 text-white" />
+                </div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.number}</div>
+                <div className="text-gray-600 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Real Photos Gallery */}
+      <section className="py-16 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Naše priestory a služby</h2>
+            <div className="w-20 h-1 bg-indigo-600 rounded mx-auto"></div>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-4">
-              <img 
-                src={offsetMachine} 
-                alt="Ofsetový tlačový stroj v prevádzke"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <p className="text-sm text-center font-medium">Ofsetový tlačový stroj</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=800&q=80"
+                  alt="Ofsetový tlačový stroj v prevádzke"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-lg font-semibold">Ofsetová tlač</h3>
+                  <p className="text-sm opacity-90">Moderné tlačové stroje</p>
+                </div>
+              </div>
             </div>
             
-            <div className="space-y-4">
-              <img 
-                src={bookbindingWorkshop} 
-                alt="Kníhviazačská dielňa"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <p className="text-sm text-center font-medium">Kníhviazačstvo</p>
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80"
+                  alt="Kníhviazačská dielňa"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-lg font-semibold">Kníhviazačstvo</h3>
+                  <p className="text-sm opacity-90">Tradičné remeslo</p>
+                </div>
+              </div>
             </div>
             
-            <div className="space-y-4">
-              <img 
-                src={letterpressWorkshop} 
-                alt="Tradičná tlačiareň"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <p className="text-sm text-center font-medium">Tradičná tlač</p>
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80"
+                  alt="Grafické štúdio"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-lg font-semibold">Grafické štúdio</h3>
+                  <p className="text-sm opacity-90">Kreatívne riešenia</p>
+                </div>
+              </div>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-            <div className="space-y-4">
-              <img 
-                src={screenPrinting} 
-                alt="Sieťotlač"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <p className="text-sm text-center font-medium">Sieťotlač</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1473091534298-04dcbce3278c?auto=format&fit=crop&w=800&q=80"
+                  alt="Sieťotlač"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-lg font-semibold">Sieťotlač</h3>
+                  <p className="text-sm opacity-90">Tlač na textil</p>
+                </div>
+              </div>
             </div>
             
-            <div className="space-y-4">
-              <img 
-                src={paperWarehouse} 
-                alt="Sklad papiera"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <p className="text-sm text-center font-medium">Predaj papiera</p>
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+                  alt="Sklad papiera"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-lg font-semibold">Predaj papiera</h3>
+                  <p className="text-sm opacity-90">Široký sortiment</p>
+                </div>
+              </div>
             </div>
             
-            <div className="space-y-4">
-              <img 
-                src={graphicStudio} 
-                alt="Grafické štúdio"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <p className="text-sm text-center font-medium">Grafické štúdio</p>
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden rounded-2xl shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img 
+                  src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=80"
+                  alt="Vydavateľstvo"
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h3 className="text-lg font-semibold">Vydavateľstvo</h3>
+                  <p className="text-sm opacity-90">Regionálne publikácie</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-8 px-4">
+      <section className="py-16 px-4 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold text-center mb-8">Naše služby</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Naše služby</h2>
+            <div className="w-20 h-1 bg-indigo-600 rounded mx-auto mb-4"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Poskytujeme komplexné tlačové služby pre firmy aj súkromných klientov
+            </p>
+          </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <ServiceCard key={index} {...service} />
             ))}
             <ServiceCard 
               title="Predaj papiera"
-              description="Široký sortiment papiera"
+              description="Široký sortiment kvalitného papiera"
               icon={FileText}
               link="/papier"
             />
@@ -195,18 +273,26 @@ const Index = () => {
       </section>
 
       {/* What we make */}
-      <section className="py-8 px-4 bg-card">
+      <section className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold text-center mb-6">Čo vyrábame</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Čo vyrábame</h2>
+            <div className="w-20 h-1 bg-indigo-600 rounded mx-auto"></div>
+          </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 text-sm">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[
-              "Plagáty", "Knihy", "Brožúry", "Vizitky", "Hlavičkové papiere", "Reklamné tlačivá",
-              "Poštové poukážky", "Samolepiace etikety", "PE tašky", "Textilné etikety", 
-              "Potlačené textílie", "Firemné tabule", "Diplomové práce", "Časopisy", "Pamätné kroniky"
+              "Plagáty", "Knihy", "Brožúry", "Vizitky", "Hlavičkové papiere", 
+              "Reklamné tlačivá", "Poštové poukážky", "Samolepiace etikety", 
+              "PE tašky", "Textilné etikety", "Potlačené textílie", "Firemné tabule", 
+              "Diplomové práce", "Časopisy", "Pamätné kroniky"
             ].map((product, index) => (
-              <div key={index} className="text-center p-3 bg-secondary rounded">
-                <span className="font-medium">{product}</span>
+              <div key={index} className="group">
+                <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl text-center shadow-sm hover:shadow-md transition-all duration-300 group-hover:bg-indigo-50 border border-indigo-100">
+                  <span className="font-medium text-gray-700 group-hover:text-indigo-700 transition-colors">
+                    {product}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -214,25 +300,48 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 px-4 bg-primary text-primary-foreground">
-        <div className="container mx-auto max-w-4xl text-center space-y-6">
-          <h2 className="text-2xl font-bold">Potrebujete cenovú ponuku?</h2>
-          <p className="opacity-90">
-            Pošlite nám podrobnosti vašej objednávky a my vám pripravíme individuálnu cenovú ponuku
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Link to="/cennik">
-              <Button variant="secondary">
-                <Mail className="w-4 h-4 mr-2" />
-                Získať ponuku
-              </Button>
-            </Link>
-            <Link to="/kontakt">
-              <Button variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="w-4 h-4 mr-2" />
-                Zavolať
-              </Button>
-            </Link>
+      <section className="py-20 px-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="container mx-auto max-w-4xl text-center relative z-10">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h2 className="text-4xl font-bold">Potrebujete cenovú ponuku?</h2>
+              <p className="text-xl opacity-90 max-w-2xl mx-auto">
+                Pošlite nám podrobnosti vašej objednávky a my vám pripravíme 
+                individuálnu cenovú ponuku do 24 hodín
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/cennik">
+                <Button size="lg" variant="secondary" className="bg-white text-indigo-600 hover:bg-gray-100 text-lg px-8 py-4 shadow-lg">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Získať ponuku
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link to="/kontakt">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 text-lg px-8 py-4">
+                  <Phone className="w-5 h-5 mr-2" />
+                  Zavolať
+                </Button>
+              </Link>
+            </div>
+            
+            <div className="flex items-center justify-center space-x-8 text-sm opacity-80">
+              <div className="flex items-center">
+                <Clock className="w-4 h-4 mr-2" />
+                Odpoveď do 24h
+              </div>
+              <div className="flex items-center">
+                <Star className="w-4 h-4 mr-2" />
+                Bezplatná konzultácia
+              </div>
+              <div className="flex items-center">
+                <Users className="w-4 h-4 mr-2" />
+                1000+ spokojných zákazníkov
+              </div>
+            </div>
           </div>
         </div>
       </section>
