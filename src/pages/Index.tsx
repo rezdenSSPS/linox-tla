@@ -19,6 +19,14 @@ import Navigation from '@/components/Navigation';
 import ServiceCard from '@/components/ServiceCard';
 import Footer from '@/components/Footer';
 
+// Import real images
+import offsetMachine from '@/assets/offset-printing-machine.jpg';
+import bookbindingWorkshop from '@/assets/bookbinding-workshop.jpg';
+import letterpressWorkshop from '@/assets/letterpress-workshop.jpg';
+import paperWarehouse from '@/assets/paper-warehouse.jpg';
+import screenPrinting from '@/assets/screen-printing.jpg';
+import graphicStudio from '@/assets/graphic-studio.jpg';
+
 const Index = () => {
   const services = [
     {
@@ -85,6 +93,71 @@ const Index = () => {
               <Link to="/kontakt">
                 <Button variant="secondary">Kontakt</Button>
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Real Photos Gallery */}
+      <section className="py-8 px-4 bg-card">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-2xl font-bold text-center mb-6">Naše priestory a služby</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-4">
+              <img 
+                src={offsetMachine} 
+                alt="Ofsetový tlačový stroj v prevádzke"
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <p className="text-sm text-center font-medium">Ofsetový tlačový stroj</p>
+            </div>
+            
+            <div className="space-y-4">
+              <img 
+                src={bookbindingWorkshop} 
+                alt="Kníhviazačská dielňa"
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <p className="text-sm text-center font-medium">Kníhviazačstvo</p>
+            </div>
+            
+            <div className="space-y-4">
+              <img 
+                src={letterpressWorkshop} 
+                alt="Tradičná tlačiareň"
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <p className="text-sm text-center font-medium">Tradičná tlač</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div className="space-y-4">
+              <img 
+                src={screenPrinting} 
+                alt="Sieťotlač"
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <p className="text-sm text-center font-medium">Sieťotlač</p>
+            </div>
+            
+            <div className="space-y-4">
+              <img 
+                src={paperWarehouse} 
+                alt="Sklad papiera"
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <p className="text-sm text-center font-medium">Predaj papiera</p>
+            </div>
+            
+            <div className="space-y-4">
+              <img 
+                src={graphicStudio} 
+                alt="Grafické štúdio"
+                className="w-full h-48 object-cover rounded-lg"
+              />
+              <p className="text-sm text-center font-medium">Grafické štúdio</p>
             </div>
           </div>
         </div>
