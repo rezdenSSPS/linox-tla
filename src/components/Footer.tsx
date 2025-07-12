@@ -16,7 +16,7 @@ const Footer = () => {
               </div>
               <div>
                 <div className="text-2xl font-bold">LI-NOX</div>
-                <div className="text-sm text-gray-400">Tlačiarne a vydavateľstvo</div>
+                <div className="text-sm text-gray-400">Li-nox s. r. o. - Tlačiareň</div>
               </div>
             </div>
             <p className="text-gray-300 leading-relaxed">
@@ -87,21 +87,32 @@ const Footer = () => {
                 <MapPin className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-1 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-medium">Adresa</div>
-                  <div className="text-sm">Rimavská Sobota, Slovensko</div>
+                  <div className="text-sm">Sedliacka 44, 979 01 Rimavská Sobota</div>
                 </div>
               </div>
               <div className="flex items-start space-x-3 group">
                 <Phone className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-1 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-medium">Telefón</div>
-                  <div className="text-sm">+421 XXX XXX XXX</div>
+                  <div className="text-sm">+421 (0)47 58 11 444</div>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3 group">
+                <Phone className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-1 group-hover:scale-110 transition-transform" />
+                <div>
+                  <div className="font-medium">Mobil</div>
+                  <div className="text-sm">+421 905 274 652</div>
                 </div>
               </div>
               <div className="flex items-start space-x-3 group">
                 <Mail className="w-5 h-5 text-indigo-400 flex-shrink-0 mt-1 group-hover:scale-110 transition-transform" />
                 <div>
                   <div className="font-medium">Email</div>
-                  <div className="text-sm">info@li-nox.sk</div>
+                  <div className="text-sm">
+                    <a href="mailto:linoxrs@gmail.com" className="text-indigo-400 hover:underline">
+                      linoxrs@gmail.com
+                    </a>
+                  </div>
                 </div>
               </div>
               <div className="flex items-start space-x-3 group">
