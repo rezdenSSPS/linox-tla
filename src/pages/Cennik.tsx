@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, Send, CheckCircle, FileImage } from 'lucide-react';
+import { Upload, Send, CheckCircle, FileImage, X } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
@@ -34,6 +33,8 @@ const Cennik = () => {
     { value: 'reklama', label: 'Reklama' },
     { value: 'grafika', label: 'Grafické štúdio' },
     { value: 'peciatky', label: 'Pečiatky a razítka' },
+    { value: 'papier', label: 'Predaj papiera' },
+    { value: 'vydavatelstvo', label: 'Vydavateľstvo' },
     { value: 'ine', label: 'Iné služby' }
   ];
 
@@ -44,7 +45,32 @@ const Cennik = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
-      setFiles(prev => [...prev, ...newFiles]);
+      const validFiles = newFiles.filter(file => {
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        
+        if (file.size > maxSize) {
+          toast({
+            title: "Súbor je príliš veľký",
+            description: `Súbor ${file.name} presahuje limit 10MB.`,
+            variant: "destructive"
+          });
+          return false;
+        }
+        
+        if (!allowedTypes.includes(file.type)) {
+          toast({
+            title: "Nepodporovaný formát",
+            description: `Súbor ${file.name} má nepodporovaný formát.`,
+            variant: "destructive"
+          });
+          return false;
+        }
+        
+        return true;
+      });
+      
+      setFiles(prev => [...prev, ...validFiles]);
     }
   };
 
@@ -52,17 +78,63 @@ const Cennik = () => {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
+  const validateForm = () => {
+    const requiredFields = ['name', 'email', 'category', 'description'];
+    const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
+    
+    if (missingFields.length > 0) {
+      toast({
+        title: "Chýbajúce údaje",
+        description: "Prosím vyplňte všetky povinné polia označené *",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Neplatný email",
+        description: "Prosím zadajte platný email.",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     setIsSubmitting(true);
 
-    // Simulate form submission
     try {
+      // Create FormData for file upload simulation
+      const submitData = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        submitData.append(key, value);
+      });
+      files.forEach((file, index) => {
+        submitData.append(`file_${index}`, file);
+      });
+
+      // Simulate email sending (in real implementation, this would send to your backend)
       await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // In a real implementation, you would send this data to your backend:
+      // const response = await fetch('/api/quote-request', {
+      //   method: 'POST',
+      //   body: submitData
+      // });
       
       toast({
         title: "Požiadavka odoslaná!",
-        description: "Vaša požiadavka na cenovú ponuku bola úspešne odoslaná. Odpovieme vám do 24 hodín.",
+        description: `Vaša požiadavka na cenovú ponuku bola úspešne odoslaná na ${formData.email}. Odpovieme vám do 24 hodín na linoxrs@gmail.com.`,
       });
 
       // Reset form
@@ -77,10 +149,18 @@ const Cennik = () => {
         deadline: ''
       });
       setFiles([]);
+      
+      // Reset file input
+      const fileInput = document.getElementById('file-upload') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = '';
+      }
+      
     } catch (error) {
+      console.error('Form submission error:', error);
       toast({
-        title: "Chyba",
-        description: "Nastala chyba pri odosielaní. Skúste to prosím znovu.",
+        title: "Chyba pri odosielaní",
+        description: "Nastala chyba pri odosielaní požiadavky. Skúste to prosím znovu alebo nás kontaktujte priamo na linoxrs@gmail.com",
         variant: "destructive"
       });
     } finally {
@@ -105,7 +185,7 @@ const Cennik = () => {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Price Info */}
           <div className="lg:col-span-1 space-y-6">
-            <Card>
+            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <CheckCircle className="w-5 h-5 text-green-600" />
@@ -132,7 +212,7 @@ const Cennik = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle>Rýchly kontakt</CardTitle>
               </CardHeader>
@@ -141,8 +221,8 @@ const Cennik = () => {
                   Pre rýchlu odpoveď nás môžete kontaktovať aj priamo:
                 </p>
                 <div className="space-y-2 text-sm">
-                  <div><strong>Telefón:</strong> +421 XXX XXX XXX</div>
-                  <div><strong>Email:</strong> info@li-nox.sk</div>
+                  <div><strong>Telefón:</strong> <a href="tel:+421905274652" className="text-indigo-600 hover:underline">+421 905 274 652</a></div>
+                  <div><strong>Email:</strong> <a href="mailto:linoxrs@gmail.com" className="text-indigo-600 hover:underline">linoxrs@gmail.com</a></div>
                   <div><strong>Otváracie hodiny:</strong> Po-Pi 8:00-16:00</div>
                 </div>
               </CardContent>
@@ -151,7 +231,7 @@ const Cennik = () => {
 
           {/* Quote Form */}
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle>Požiadavka na cenovú ponuku</CardTitle>
               </CardHeader>
@@ -167,6 +247,7 @@ const Cennik = () => {
                         onChange={(e) => handleInputChange('name', e.target.value)}
                         required
                         placeholder="Vaše celé meno"
+                        className="border-gray-300 focus:border-indigo-500"
                       />
                     </div>
                     <div className="space-y-2">
@@ -178,6 +259,7 @@ const Cennik = () => {
                         onChange={(e) => handleInputChange('email', e.target.value)}
                         required
                         placeholder="vas@email.sk"
+                        className="border-gray-300 focus:border-indigo-500"
                       />
                     </div>
                   </div>
@@ -190,12 +272,13 @@ const Cennik = () => {
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
                         placeholder="+421 XXX XXX XXX"
+                        className="border-gray-300 focus:border-indigo-500"
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="category">Kategória služby *</Label>
                       <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-300 focus:border-indigo-500">
                           <SelectValue placeholder="Vyberte kategóriu" />
                         </SelectTrigger>
                         <SelectContent>
@@ -218,6 +301,7 @@ const Cennik = () => {
                         value={formData.quantity}
                         onChange={(e) => handleInputChange('quantity', e.target.value)}
                         placeholder="napr. 100 ks"
+                        className="border-gray-300 focus:border-indigo-500"
                       />
                     </div>
                     <div className="space-y-2">
@@ -227,6 +311,7 @@ const Cennik = () => {
                         value={formData.format}
                         onChange={(e) => handleInputChange('format', e.target.value)}
                         placeholder="napr. A4, A5, vlastný"
+                        className="border-gray-300 focus:border-indigo-500"
                       />
                     </div>
                     <div className="space-y-2">
@@ -236,6 +321,7 @@ const Cennik = () => {
                         type="date"
                         value={formData.deadline}
                         onChange={(e) => handleInputChange('deadline', e.target.value)}
+                        className="border-gray-300 focus:border-indigo-500"
                       />
                     </div>
                   </div>
@@ -249,6 +335,7 @@ const Cennik = () => {
                       required
                       rows={4}
                       placeholder="Popíšte čo presne potrebujete - typ tlače, farby, papier, dokončovanie, atď..."
+                      className="border-gray-300 focus:border-indigo-500"
                     />
                   </div>
 
@@ -290,9 +377,9 @@ const Cennik = () => {
                               variant="ghost"
                               size="sm"
                               onClick={() => removeFile(index)}
-                              className="text-red-600 hover:text-red-700"
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
                             >
-                              Odstrániť
+                              <X className="w-4 h-4" />
                             </Button>
                           </div>
                         ))}
@@ -304,7 +391,7 @@ const Cennik = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-indigo-600 hover:bg-indigo-700"
+                    className="w-full bg-indigo-600 hover:bg-indigo-700 shadow-lg"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -321,7 +408,7 @@ const Cennik = () => {
                   </Button>
 
                   <p className="text-xs text-gray-500 text-center">
-                    * Povinné polia. Odpovieme vám do 24 hodín na váš email.
+                    * Povinné polia. Odpovieme vám do 24 hodín na váš email z adresy linoxrs@gmail.com.
                   </p>
                 </form>
               </CardContent>
