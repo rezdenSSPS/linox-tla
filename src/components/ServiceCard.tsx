@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, LucideIcon } from 'lucide-react';
+import { ArrowRight, DivideIcon as LucideIcon } from 'lucide-react';
 
 interface ServiceCardProps {
   title: string;
