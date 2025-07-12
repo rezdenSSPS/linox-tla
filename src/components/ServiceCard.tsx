@@ -14,24 +14,20 @@ interface ServiceCardProps {
 
 const ServiceCard = ({ title, description, icon: Icon, link }: ServiceCardProps) => {
   return (
-    <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105">
-      <CardContent className="p-8 text-center space-y-6">
-        <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300">
-          <Icon className="w-8 h-8 text-white" />
+    <Card className="group hover:shadow-md transition-all duration-200 border border-primary/20 hover:border-primary/40">
+      <CardContent className="p-4 space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+            <Icon className="w-5 h-5 text-primary-foreground" />
+          </div>
+          <h3 className="text-lg font-semibold">{title}</h3>
         </div>
         
-        <div className="space-y-3">
-          <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-          <p className="text-gray-600 leading-relaxed">{description}</p>
-        </div>
+        <p className="text-sm text-muted-foreground">{description}</p>
         
         <Link to={link}>
-          <Button 
-            variant="ghost" 
-            className="group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors"
-          >
-            Viac informácií
-            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          <Button size="sm" className="w-full">
+            Pozrieť
           </Button>
         </Link>
       </CardContent>
