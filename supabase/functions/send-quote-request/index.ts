@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 import { Resend } from "npm:resend@2.0.0";
@@ -48,6 +49,37 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Failed to save quote request");
     }
 
+    // Prepare file attachments if any
+    let attachments: any[] = [];
+    if (quoteData.file_urls && quoteData.file_urls.length > 0) {
+      console.log("Processing file attachments:", quoteData.file_urls);
+      
+      for (const fileUrl of quoteData.file_urls) {
+        try {
+          // Extract filename from URL
+          const urlParts = fileUrl.split('/');
+          const filename = urlParts[urlParts.length - 1];
+          
+          // Fetch the file content
+          const fileResponse = await fetch(fileUrl);
+          if (fileResponse.ok) {
+            const fileBuffer = await fileResponse.arrayBuffer();
+            const base64Content = btoa(String.fromCharCode(...new Uint8Array(fileBuffer)));
+            
+            attachments.push({
+              filename: filename,
+              content: base64Content,
+              content_type: fileResponse.headers.get('content-type') || 'application/octet-stream'
+            });
+          } else {
+            console.error("Failed to fetch file:", fileUrl, fileResponse.status);
+          }
+        } catch (fileError) {
+          console.error("Error processing file:", fileUrl, fileError);
+        }
+      }
+    }
+
     // Send email notification
     const emailContent = `
       <h2>Nová cenová ponuka</h2>
@@ -60,28 +92,37 @@ const handler = async (req: Request): Promise<Response> => {
       ${quoteData.paper_type ? `<p><strong>Typ papiera:</strong> ${quoteData.paper_type}</p>` : ""}
       ${quoteData.format ? `<p><strong>Formát:</strong> ${quoteData.format}</p>` : ""}
       ${quoteData.description ? `<p><strong>Popis:</strong> ${quoteData.description}</p>` : ""}
-      ${quoteData.file_urls && quoteData.file_urls.length > 0 ? 
-        `<p><strong>Súbory:</strong><br>${quoteData.file_urls.map(url => `<a href="${url}">${url}</a>`).join('<br>')}</p>` 
+      ${attachments.length > 0 ? 
+        `<p><strong>Počet príloh:</strong> ${attachments.length}</p>` 
         : ""
       }
       <hr>
       <p><small>Žiadosť ID: ${data.id}</small></p>
     `;
 
-    const emailResponse = await resend.emails.send({
+    const emailPayload: any = {
       from: "Li-nox Cenové ponuky <onboarding@resend.dev>",
       to: ["rezdencsgo@gmail.com"],
       subject: `Nová cenová ponuka od ${quoteData.name}`,
       html: emailContent,
-    });
+    };
+
+    // Add attachments if any
+    if (attachments.length > 0) {
+      emailPayload.attachments = attachments;
+    }
+
+    const emailResponse = await resend.emails.send(emailPayload);
 
     console.log("Email sent successfully:", emailResponse);
+    console.log("Attachments processed:", attachments.length);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
         id: data.id,
-        message: "Cenová ponuka bola úspešne odoslaná"
+        message: "Cenová ponuka bola úspešne odoslaná",
+        attachments_processed: attachments.length
       }),
       {
         status: 200,
