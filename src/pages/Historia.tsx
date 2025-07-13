@@ -86,7 +86,7 @@ const Historia = () => {
           
           <div className="space-y-6">
             <img 
-              src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80"
+              src="https://study.com/cimages/videopreview/videopreview-full/7sq9yeqpow.jpg"
               alt="Historická tlačiareň"
               className="w-full h-64 object-cover rounded-2xl shadow-lg"
             />
