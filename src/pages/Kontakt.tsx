@@ -119,7 +119,7 @@ const Kontakt = () => {
               <CardContent>
                 <div className="aspect-video rounded-lg overflow-hidden mb-4 shadow-md">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2654.123456789!2d20.0123456!3d48.3789012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sSedliacka%2044%2C%20979%2001%20Rimavsk%C3%A1%20Sobota%2C%20Slovakia!5e0!3m2!1sen!2ssk!4v1234567890123"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2627.944!2d20.0111!3d48.3792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x474113d6c0c8b8f7%3A0x42f0b2e4b0123456!2sSedliacka%2044%2C%20979%2001%20Rimavsk%C3%A1%20Sobota%2C%20Slovakia!5e0!3m2!1sen!2ssk!4v1652345678901"
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}
