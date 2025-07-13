@@ -19,7 +19,7 @@ import {
 import Navigation from '@/components/Navigation';
 import ServiceCard from '@/components/ServiceCard';
 import Footer from '@/components/Footer';
-import dragonLogo from '@/assets/dragon-logo.png'; // Import the dragon emblem
+import dragonLogo from '@/assets/dragon-logo.png';
 
 const Index = () => {
   const services = [
@@ -169,7 +169,11 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/kontakt">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-4">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="text-lg px-8 py-4 border-white/50 hover:bg-white/10"
+                >
                   <Phone className="w-5 h-5 mr-2" />
                   Zavolať
                 </Button>
