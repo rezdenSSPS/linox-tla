@@ -1,9 +1,9 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from './components/ScrollToTop'; // Import the new component
 import Index from "./pages/Index";
 import Cennik from "./pages/Cennik";
 import Kontakt from "./pages/Kontakt";
@@ -27,6 +27,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop /> {/* Add this component here */}
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/cennik" element={<Cennik />} />
