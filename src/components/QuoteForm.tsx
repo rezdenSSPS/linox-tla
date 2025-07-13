@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,12 +33,23 @@ const QuoteForm = () => {
     'Reklama',
     'Predaj papiera',
     'Pečiatky-razítka',
-    'Grafické studio',
+    'Grafické štúdio',
     'Vydavateľstvo'
   ];
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  // Special handler for service change to reset dependent fields
+  const handleServiceChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      service: value,
+      quantity: '',
+      paper_type: '',
+      format: '',
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +57,26 @@ const QuoteForm = () => {
       setFiles(Array.from(e.target.files));
     }
   };
+
+  // Logic to determine which fields to show based on the selected service
+  const visibleFields = useMemo(() => {
+    const service = formData.service;
+    if (!service) return { quantity: false, paper_type: false, format: false };
+
+    switch (service) {
+      case 'Grafické štúdio':
+        return { quantity: false, paper_type: false, format: false };
+      case 'Pečiatky-razítka':
+        return { quantity: true, paper_type: false, format: false };
+      case 'Predaj papiera':
+        return { quantity: true, paper_type: true, format: true };
+      case 'Kníhviazačstvo':
+        return { quantity: true, paper_type: false, format: true };
+      default: // For all other printing services like Kníhtlač, Ofset, etc.
+        return { quantity: true, paper_type: true, format: true };
+    }
+  }, [formData.service]);
+
 
   const uploadFiles = async (): Promise<string[]> => {
     const uploadedUrls: string[] = [];
@@ -141,7 +172,7 @@ const QuoteForm = () => {
   return (
     <Card className="max-w-2xl mx-auto shadow-lg border-0 bg-white/90 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center text-blue-900">
+        <CardTitle className="text-2xl font-bold text-center text-primary">
           Požiadavka na cenovú ponuku
         </CardTitle>
       </CardHeader>
@@ -190,7 +221,7 @@ const QuoteForm = () => {
 
           <div className="space-y-2">
             <Label htmlFor="service">Služba *</Label>
-            <Select value={formData.service} onValueChange={(value) => handleInputChange('service', value)}>
+            <Select value={formData.service} onValueChange={handleServiceChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Vyberte službu" />
               </SelectTrigger>
@@ -204,35 +235,44 @@ const QuoteForm = () => {
             </Select>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="quantity">Množstvo</Label>
-              <Input
-                id="quantity"
-                placeholder="napr. 100 ks"
-                value={formData.quantity}
-                onChange={(e) => handleInputChange('quantity', e.target.value)}
-              />
+          {/* Conditionally rendered fields */}
+          {(visibleFields.quantity || visibleFields.paper_type || visibleFields.format) && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {visibleFields.quantity && (
+                <div className="space-y-2">
+                  <Label htmlFor="quantity">Množstvo</Label>
+                  <Input
+                    id="quantity"
+                    placeholder="napr. 100 ks"
+                    value={formData.quantity}
+                    onChange={(e) => handleInputChange('quantity', e.target.value)}
+                  />
+                </div>
+              )}
+              {visibleFields.paper_type && (
+                <div className="space-y-2">
+                  <Label htmlFor="paper_type">Typ papiera</Label>
+                  <Input
+                    id="paper_type"
+                    placeholder="napr. 80g biely"
+                    value={formData.paper_type}
+                    onChange={(e) => handleInputChange('paper_type', e.target.value)}
+                  />
+                </div>
+              )}
+              {visibleFields.format && (
+                <div className="space-y-2">
+                  <Label htmlFor="format">Formát</Label>
+                  <Input
+                    id="format"
+                    placeholder="napr. A4"
+                    value={formData.format}
+                    onChange={(e) => handleInputChange('format', e.target.value)}
+                  />
+                </div>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="paper_type">Typ papiera</Label>
-              <Input
-                id="paper_type"
-                placeholder="napr. 80g biel"
-                value={formData.paper_type}
-                onChange={(e) => handleInputChange('paper_type', e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="format">Formát</Label>
-              <Input
-                id="format"
-                placeholder="napr. A4"
-                value={formData.format}
-                onChange={(e) => handleInputChange('format', e.target.value)}
-              />
-            </div>
-          </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="description">Popis požiadavky</Label>
@@ -255,10 +295,10 @@ const QuoteForm = () => {
                 onChange={handleFileChange}
                 className="flex-1"
               />
-              <Upload className="w-5 h-5 text-blue-600" />
+              <Upload className="w-5 h-5 text-primary" />
             </div>
             {files.length > 0 && (
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Vybrané súbory: {files.map(f => f.name).join(', ')}
               </div>
             )}
@@ -266,7 +306,7 @@ const QuoteForm = () => {
 
           <Button 
             type="submit" 
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
