@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { 
   Printer, 
   BookOpen, 
-  Image, 
+  Image as ImageIcon,
   Palette, 
   FileText, 
   Award,
@@ -19,6 +19,7 @@ import {
 import Navigation from '@/components/Navigation';
 import ServiceCard from '@/components/ServiceCard';
 import Footer from '@/components/Footer';
+import dragonLogo from '@/assets/dragon-logo.png'; // Import the dragon emblem
 
 const Index = () => {
   const services = [
@@ -37,7 +38,7 @@ const Index = () => {
     {
       title: "Sieťotlač",
       description: "Sieťotlač na textil, plastové materiály a neštandardné povrchy",
-      icon: Image,
+      icon: ImageIcon,
       link: "/sietotlac"
     },
     {
@@ -71,48 +72,48 @@ const Index = () => {
     <div className="min-h-screen bg-slate-50">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="relative py-20 px-4">
+      {/* New Hero Section */}
+      <section className="relative py-20 px-4 bg-background">
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center space-y-8">
-            <div className="space-y-4">
-              <div className="inline-flex items-center px-4 py-2 bg-secondary text-secondary-foreground rounded-full text-sm font-medium">
-                <Calendar className="w-4 h-4 mr-2" />
-                Tradícia od roku 1990
-              </div>
-              <h1 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">
-                LI-NOX
-                <span className="block text-3xl md:text-4xl text-primary mt-2">
-                  Tlačiarne a vydavateľstvo
-                </span>
-              </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Viac ako 30 rokov poskytujeme kvalitné tlačové služby v Rimavskej Sobote. 
-                Od tradičnej tlače až po moderné digitálne technológie.
-              </p>
-            </div>
+          <div className="flex flex-col lg:flex-row items-center justify-center text-center lg:text-left gap-12">
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/cennik">
-                <Button size="lg" className="text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <Mail className="w-5 h-5 mr-2" />
-                  Získať cenovú ponuku
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Link to="/kontakt">
-                <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 transition-all duration-300">
-                  <Phone className="w-5 h-5 mr-2" />
-                  Kontakt
-                </Button>
-              </Link>
+            {/* Dragon Logo */}
+            <div className="flex-shrink-0">
+              <img src={dragonLogo} alt="LI-NOX Dragon Emblem" className="h-40 w-auto animate-fade-in" />
+            </div>
+
+            {/* Text content */}
+            <div className="space-y-4">
+                 <h1 className="text-5xl md:text-6xl font-bold text-foreground leading-tight">
+                    LI-NOX
+                </h1>
+                <p className="text-2xl text-primary font-medium">
+                    Tlačiarne a vydavateľstvo
+                </p>
+                <p className="text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0">
+                    Viac ako 30 rokov poskytujeme kvalitné tlačové služby v Rimavskej Sobote. Od tradičnej tlače až po moderné digitálne technológie.
+                </p>
+                <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <Link to="/cennik">
+                        <Button size="lg" className="text-lg px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300">
+                            <Mail className="w-5 h-5 mr-2" />
+                            Získať cenovú ponuku
+                        </Button>
+                    </Link>
+                    <Link to="/kontakt">
+                        <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 transition-all duration-300">
+                            <Phone className="w-5 h-5 mr-2" />
+                            Kontakt
+                        </Button>
+                    </Link>
+                </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-background border-t border-b">
+      <section className="py-16 px-4 bg-slate-100/80 border-t border-b">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -128,66 +129,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Real Photos Gallery */}
-      <section className="py-16 px-4 bg-slate-50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Naše priestory a služby</h2>
-            <div className="w-20 h-1 bg-primary rounded mx-auto"></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* TODO: Replace with your aunt's image */}
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-lg shadow-md group-hover:shadow-xl transition-all duration-300">
-                <img 
-                  src="/src/assets/offset-printing-machine.jpg"
-                  alt="Ofsetový tlačový stroj v prevádzke"
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-lg font-semibold">Ofsetová tlač</h3>
-                  <p className="text-sm opacity-90">Moderné tlačové stroje</p>
-                </div>
-              </div>
-            </div>
-            {/* TODO: Replace with your aunt's image */}
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-lg shadow-md group-hover:shadow-xl transition-all duration-300">
-                <img 
-                  src="/src/assets/bookbinding-workshop.jpg"
-                  alt="Kníhviazačská dielňa"
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-lg font-semibold">Kníhviazačstvo</h3>
-                  <p className="text-sm opacity-90">Tradičné remeslo</p>
-                </div>
-              </div>
-            </div>
-            {/* TODO: Replace with your aunt's image */}
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden rounded-lg shadow-md group-hover:shadow-xl transition-all duration-300">
-                <img 
-                  src="/src/assets/graphic-studio.jpg"
-                  alt="Grafické štúdio"
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-lg font-semibold">Grafické štúdio</h3>
-                  <p className="text-sm opacity-90">Kreatívne riešenia</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Services Section */}
-      <section className="py-16 px-4 bg-background border-t">
+      <section className="py-16 px-4 bg-background">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">Naše služby</h2>
