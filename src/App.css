@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 1100px; /* Reduced from 1280px for a more contained layout */
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
