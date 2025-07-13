@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import logo from '@/assets/logo.png'; // Import the logo
+import dragonLogo from '@/assets/dragon-logo.png'; // Import the new dragon logo
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,10 +36,10 @@ const Navigation = () => {
   return (
     <nav className="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-3">
-          {/* Logo */}
+        <div className="flex justify-between items-center py-2">
+          {/* Dragon Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <img src={logo} alt="LI-NOX Logo" className="h-10 w-auto" />
+            <img src={dragonLogo} alt="LI-NOX Dragon Logo" className="h-14 w-auto" />
           </Link>
 
           {/* Desktop Menu */}
